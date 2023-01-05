@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Todos from './Todos'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ThemeProvider } from '@emotion/react'
+import { Button, createTheme } from '@mui/material'
+import WeatherPage from './WeatherPage'
 
-function App() {
+const App = () => {
+    const [theme , setTheme] = useState(false)
+     const light =createTheme({
+        palette: {
+          mode: 'light',
+        },
+      });
+      
+       const dark = createTheme({
+        palette: {
+          mode: 'dark',
+          background: {
+            default: '#000000',
+          },
+        },
+        
+        
+      });
+    
+      
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+   <ThemeProvider theme={ theme ? dark : light}>
+    <BrowserRouter>
+    <Button onClick={() => setTheme(!theme)}>Change Theme</Button>
+      <Routes>
+        <Route path="/" element={<Todos />}></Route>
+        <Route path="/weather" element={<WeatherPage />}></Route>
+      </Routes>
+    </BrowserRouter>
+    </ThemeProvider>
+   
+  )
 }
 
-export default App;
+export default App
